@@ -22,7 +22,7 @@ The codes in LRR are downloaded from Internet. These are references. Source: Hon
 ## files:
 
 clean.py: 
-data preprocess: First we remove the reviews with any missing aspect rating or document length less than 50 words (to keep the content coverage of all possible aspects).  Then we  convert all the words into lower cases and remove punctuations and stop words.  In vocab.txt we write vocabulary appearance based on reviews. If a word appears in several times in the same review, it would only be counted as once.  We then filtered out words that have less than ten occurences.  
+data preprocess: First we remove the reviews with any missing aspect rating or document length less than 50 words (to keep the content coverage of all possible aspects).  Then we  convert all the words into lower cases and remove punctuations and stop words.  In vocab.txt we write vocabulary appearance based on reviews. If a word appears in several times in the same review, it would only be counted as once.  We then filtered out words that have less than ten occurences.  <br>
 
 load.py: build matrix for reviews and generate results. Load data for testing.
 
@@ -35,8 +35,8 @@ Results:
 High rating words collections and the aspect rating weight for each reviews represented as matrix.
 
 ## Required packages:
-numpy
-scipy
+numpy <br>
+scipy <br>
 nltk
 
 ## Run:
