@@ -24,9 +24,9 @@ The codes in LRR are downloaded from Internet. These are references. Source: Hon
 clean.py: 
 data preprocess: First we remove the reviews with any missing aspect rating or document length less than 50 words (to keep the content coverage of all possible aspects).  Then we  convert all the words into lower cases and remove punctuations and stop words.  In vocab.txt we write vocabulary appearance based on reviews. If a word appears in several times in the same review, it would only be counted as once.  We then filtered out words that have less than ten occurences.  
 
-load.py: build matrix for reviews and generate results.
+load.py: build matrix for reviews and generate results. Load data for testing.
 
-lara.py: The LARA model, mainly the aspect modeling part. Gererated the alpha and s, which are the review-level k dimensional( 7 for our data) aspect weight vector and rating vector. The overall rating for the review can be drawn from the Gaussian distribution with mean alpah.T dot product s, and variance delta.
+lara.py: The LARA model, mainly the aspect modeling part, using EM algorithm.In this program, we implemented function such as update_mu, update_beta, E_step, M_step etc. Gererated the alpha and s, which are the review-level k dimensional( 7 for our data) aspect weight vector and rating vector. The overall rating for the review can be drawn from the Gaussian distribution with mean alpah.T dot product s, and variance delta. 
 
 Data: The test data we use, download from http://times.cs.uiuc.edu/~wang296/Data/: TripAdvisor Data Set: JSON
 
