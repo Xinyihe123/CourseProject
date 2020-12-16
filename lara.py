@@ -169,7 +169,7 @@ def update_phi(phi, W, beta, mu, gamma, alpha, sigma, s, r, delta, eta):
         p = np.zeros([L,k])
         for n in range (L):
             for i in range (k):
-            p[n][i] = phi[d][n][i]*(gammaln(eta) - gammaln(np.sum(eta[d,:]) + W[d][i]*np.log(epsilon[d][i] - np.log(phi[d][n][i]))) - np.square(np.dot(alpha.transpose(), s))
+                p[n][i] = phi[d][n][i]*(gammaln(eta) - gammaln(np.sum(eta[d,:]) + W[d][i]*np.log(epsilon[d][i] - np.log(phi[d][n][i]))) - np.square(np.dot(alpha.transpose(), s)))
         p[n,:] = p[n,:] / np.sum(p[n,:])
         new_phi.append(p)
     return new_phi
@@ -193,22 +193,23 @@ def update_gamma(gamma, alpha, eta, W):
 
 
 def calc_log(r,alpha,beta,W,delta,mu,sigma,word_index):
-	n_reviews = alpha.shape[0]
-	k = alpha.shape[1]
-	p = np.exp(alpha)
-	p = p / np.sum(p, axis=1, keepdims=True)
-	data_likelihood = 0
-    entropy =  - (np.dot(alpha.transpose(), s) - r)**2/ delta - 0.5 * np.dot((alpha - mu).transpose(), (alpha - mu))* sigma_inv - 0.5 * np.log(delta) - 0.5* np.log(len(sigma))
+    n_reviews = alpha.shape[0]
+    k = alpha.shape[1]
+    p = np.exp(alpha)
+    p = p / np.sum(p, axis=1, keepdims=True)
+    data_likelihood = 0
+    entropy =  (np.dot(alpha.transpose(), s) - r)**2/ delta - 0.5 * np.dot((alpha - mu).transpose(), (alpha - mu))* sigma_inv - 0.5 * np.log(delta) 
+    
     lmbda= 0
-	for i in range(n_reviews):
-		data_likelihood += (r[i] - np.dot(p[i], np.sum(beta[:, word_index[i]] * W[i], axis=1)))**2 / (2 * delta)
-	    data_likelihood = data_likelihood / n_reviews + math.log(delta)
+    for i in range(n_reviews):
+        data_likelihood += (r[i] - np.dot(p[i], np.sum(beta[:, word_index[i]] * W[i], axis=1)))**2 / (2 * delta)
+        data_likelihood = data_likelihood / n_reviews + math.log(delta)
         lmbda += np.square(r - np.dot(alpha.transpose(), s))
         for j in range(k):
             lmbda += (np.sqrare(alpha[i]) + np.sqrare(s[d][i])) * gammaln(s[d][i]) + sigma[d][i]**2*np.mean(s[d][i], axis = 1)
-	alpha_likelihood = np.sum((alpha - mu) * np.dot(alpha - mu, inv(sigma + 1e-3 * np.eye(k)))) + math.log(np.linalg.det(sigma + 1e-3 * np.eye(k)))
-	beta_likelihood = np.sum(np.square(beta)) * 1e-3
-	return data_likelihood + alpha_likelihood + beta_likelihood - entropy - lmbda
+    alpha_likelihood = np.sum((alpha - mu) * np.dot(alpha - mu, inv(sigma + 1e-3 * np.eye(k)))) + math.log(np.linalg.det(sigma + 1e-3 * np.eye(k)))
+    beta_likelihood = np.sum(np.square(beta)) * 1e-3
+    return data_likelihood + alpha_likelihood + beta_likelihood - entropy - lmbda
 
 def alpha_inference(alpha, r, s, delta, mu, inv_sigma):
 	k = alpha.shape[0]
