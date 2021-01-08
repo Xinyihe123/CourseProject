@@ -48,9 +48,6 @@ numpy <br>
 scipy <br>
 nltk
 
-## Run:
-python3 lara.py <br>
-
 ## Project Members:
 Xinyi He <br>
 Weijiang Li <br>
